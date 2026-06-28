@@ -86,11 +86,14 @@ npm start
 
 Open [http://localhost:4200](http://localhost:4200).
 
-The frontend API URL is configured in `src/environments/environment.ts`:
+The frontend uses a same-origin API path, so it works cleanly behind a reverse proxy:
 
 ```ts
-apiUrl: 'http://localhost:3001/api'
+apiUrl: '/api'
 ```
+
+During local development, `npm start` uses `proxy.conf.json` to forward `/api/*` to
+the NestJS API on port `3001`.
 
 ## Backend
 
