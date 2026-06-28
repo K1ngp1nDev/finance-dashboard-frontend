@@ -12,8 +12,8 @@ import { TransactionsService, CATEGORIES } from '../../../core/services/transact
         <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Add transaction</h2>
         <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Use Income for deposits and the other categories for expenses.</p>
       </div>
-      <form (ngSubmit)="submit()" class="grid grid-cols-2 gap-3">
-        <div class="col-span-2">
+      <form (ngSubmit)="submit()" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div class="sm:col-span-2">
           <label class="block text-xs font-medium text-slate-600 mb-1 dark:text-slate-300">Description</label>
           <div class="flex gap-2">
             <input [(ngModel)]="description" name="description" required placeholder="Grocery Market"
@@ -49,10 +49,10 @@ import { TransactionsService, CATEGORIES } from '../../../core/services/transact
             class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
         </div>
         @if (error()) {
-          <p class="col-span-2 text-sm text-red-600 dark:text-red-300">{{ error() }}</p>
+          <p class="text-sm text-red-600 dark:text-red-300 sm:col-span-2">{{ error() }}</p>
         }
         <button type="submit" [disabled]="loading()"
-          class="col-span-2 bg-indigo-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors">
+          class="bg-indigo-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors sm:col-span-2">
           {{ loading() ? 'Adding…' : 'Add transaction' }}
         </button>
       </form>

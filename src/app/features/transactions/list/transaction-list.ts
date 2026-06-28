@@ -29,10 +29,10 @@ const CATEGORY_COLORS: Record<string, string> = {
           <h1 class="text-2xl font-bold text-slate-950 dark:text-white">Transactions</h1>
           <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Add, import and manage finance records used by the dashboard.</p>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex w-full flex-col gap-1 sm:w-auto sm:flex-row sm:items-center sm:gap-2">
           <label class="text-sm font-medium text-slate-600 dark:text-slate-300">Category</label>
           <select [(ngModel)]="categoryFilter" (change)="reload()"
-            class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+            class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 sm:w-auto">
             <option value="">All categories</option>
             @for (cat of categories; track cat) {
               <option [value]="cat">{{ cat }}</option>
@@ -67,7 +67,7 @@ const CATEGORY_COLORS: Record<string, string> = {
       </div>
 
       <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-        <div class="flex items-center justify-between border-b border-slate-100 px-6 py-4 dark:border-slate-800">
+        <div class="flex items-center justify-between border-b border-slate-100 px-4 py-4 dark:border-slate-800 md:px-6">
           <div>
             <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Transaction ledger</h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">{{ filteredTransactions().length }} records visible</p>
@@ -79,7 +79,34 @@ const CATEGORY_COLORS: Record<string, string> = {
         } @else if (filteredTransactions().length === 0) {
           <div class="p-10 text-center text-sm text-slate-400 dark:text-slate-500">No transactions match the current filter.</div>
         } @else {
-          <div class="overflow-x-auto">
+          <div class="divide-y divide-slate-100 dark:divide-slate-800 md:hidden">
+            @for (tx of filteredTransactions(); track tx.id) {
+              <article class="p-4">
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <p class="truncate text-sm font-semibold text-slate-900 dark:text-slate-100">{{ tx.description }}</p>
+                    <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{{ tx.date | date:'mediumDate' }}</p>
+                  </div>
+                  <p class="shrink-0 text-sm font-bold text-slate-900 dark:text-slate-100" [class.text-emerald-600]="tx.category === 'Income'">
+                    {{ tx.amount | currency:'USD':'symbol':'1.2-2' }}
+                  </p>
+                </div>
+                <div class="mt-3 flex items-center justify-between gap-3">
+                  <span class="rounded-full px-2.5 py-1 text-xs font-medium {{ categoryClass(tx.category) }}">
+                    {{ tx.category }}
+                  </span>
+                  <button (click)="remove(tx.id)" class="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 dark:text-slate-400 dark:hover:bg-red-500/10 dark:hover:text-red-300">
+                    Delete
+                  </button>
+                </div>
+                @if (tx.notes) {
+                  <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ tx.notes }}</p>
+                }
+              </article>
+            }
+          </div>
+
+          <div class="hidden overflow-x-auto md:block">
             <table class="min-w-full divide-y divide-slate-100 text-left text-sm dark:divide-slate-800">
               <thead class="bg-slate-50 text-xs uppercase tracking-wide text-slate-500 dark:bg-slate-950 dark:text-slate-400">
                 <tr>

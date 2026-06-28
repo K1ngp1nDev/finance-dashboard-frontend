@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed } from '@angular/core'
+import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core'
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common'
 import { NgApexchartsModule } from 'ng-apexcharts'
 import { TransactionsService, AnalyticsSummary } from '../../core/services/transactions.service'
@@ -10,14 +10,14 @@ import { ThemeService } from '../../core/services/theme.service'
   standalone: true,
   imports: [CurrencyPipe, DatePipe, DecimalPipe, NgApexchartsModule, AiChatComponent],
   template: `
-    <div class="space-y-6">
+    <div class="space-y-4 md:space-y-6">
       <div class="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">AI Finance Dashboard</p>
-          <h1 class="text-2xl font-bold text-slate-950 dark:text-white">Financial overview</h1>
+          <h1 class="text-xl font-bold text-slate-950 dark:text-white md:text-2xl">Financial overview</h1>
           <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Demo-ready cash flow, spending analytics and recent activity.</p>
         </div>
-        <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-200">
+        <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-3 py-2 text-sm text-indigo-800 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-200 md:px-4 md:py-3">
           Demo account seeded with 6 months of transactions
         </div>
       </div>
@@ -27,31 +27,31 @@ import { ThemeService } from '../../core/services/theme.service'
       } @else if (error()) {
         <div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-950/40 dark:text-red-200">{{ error() }}</div>
       } @else {
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
             <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Balance</p>
-            <p class="mt-2 text-3xl font-bold text-slate-950 dark:text-white">{{ summary()?.balance | currency:'USD':'symbol':'1.0-0' }}</p>
+            <p class="mt-2 text-2xl font-bold text-slate-950 dark:text-white md:text-3xl">{{ summary()?.balance | currency:'USD':'symbol':'1.0-0' }}</p>
             <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Income minus expenses</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
             <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Income</p>
-            <p class="mt-2 text-3xl font-bold text-emerald-600 dark:text-emerald-400">{{ summary()?.totalIncome | currency:'USD':'symbol':'1.0-0' }}</p>
+            <p class="mt-2 text-2xl font-bold text-emerald-600 dark:text-emerald-400 md:text-3xl">{{ summary()?.totalIncome | currency:'USD':'symbol':'1.0-0' }}</p>
             <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ summary()?.count ?? 0 }} transactions tracked</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
             <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Expenses</p>
-            <p class="mt-2 text-3xl font-bold text-rose-600 dark:text-rose-400">{{ summary()?.totalExpenses | currency:'USD':'symbol':'1.0-0' }}</p>
+            <p class="mt-2 text-2xl font-bold text-rose-600 dark:text-rose-400 md:text-3xl">{{ summary()?.totalExpenses | currency:'USD':'symbol':'1.0-0' }}</p>
             <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ summary()?.averageMonthlySpend | currency:'USD':'symbol':'1.0-0' }} avg / month</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
             <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Savings rate</p>
-            <p class="mt-2 text-3xl font-bold text-indigo-600 dark:text-indigo-300">{{ summary()?.savingsRate | number:'1.0-1' }}%</p>
+            <p class="mt-2 text-2xl font-bold text-indigo-600 dark:text-indigo-300 md:text-3xl">{{ summary()?.savingsRate | number:'1.0-1' }}%</p>
             <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Top category: {{ topCategory() }}</p>
           </div>
         </div>
 
         <div class="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
             <div class="mb-4 flex items-center justify-between">
               <div>
                 <h2 class="text-base font-semibold text-slate-900 dark:text-white">Monthly cash flow</h2>
@@ -76,7 +76,7 @@ import { ThemeService } from '../../core/services/theme.service'
             }
           </div>
 
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
             <h2 class="text-base font-semibold text-slate-900 dark:text-white">Spending by category</h2>
             <p class="mb-4 text-xs text-slate-500 dark:text-slate-400">Expense-only breakdown for cleaner reporting</p>
             @if (donutSeries().length > 0) {
@@ -111,7 +111,7 @@ import { ThemeService } from '../../core/services/theme.service'
             </div>
             <div class="divide-y divide-slate-100 dark:divide-slate-800">
               @for (tx of summary()?.recentTransactions ?? []; track tx.id) {
-                <div class="flex items-center justify-between gap-4 px-5 py-3">
+                <div class="flex items-center justify-between gap-4 px-4 py-3 md:px-5">
                   <div>
                     <p class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ tx.description }}</p>
                     <p class="text-xs text-slate-500 dark:text-slate-400">{{ tx.category }} · {{ tx.date | date:'mediumDate' }}</p>
@@ -130,7 +130,7 @@ import { ThemeService } from '../../core/services/theme.service'
             </div>
             <div class="divide-y divide-slate-100 dark:divide-slate-800">
               @for (tx of summary()?.largestExpenses ?? []; track tx.id) {
-                <div class="flex items-center justify-between gap-4 px-5 py-3">
+                <div class="flex items-center justify-between gap-4 px-4 py-3 md:px-5">
                   <div>
                     <p class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ tx.description }}</p>
                     <p class="text-xs text-slate-500 dark:text-slate-400">{{ tx.category }} · {{ tx.date | date:'mediumDate' }}</p>
@@ -142,21 +142,24 @@ import { ThemeService } from '../../core/services/theme.service'
           </div>
         </div>
 
-        <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+        <section class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:p-5">
           <div class="mb-4 flex flex-col gap-1">
             <h2 class="text-base font-semibold text-slate-900 dark:text-white">AI finance assistant</h2>
             <p class="text-sm text-slate-500 dark:text-slate-400">Visible on the dashboard and wired to keyless backend demo mode.</p>
           </div>
-          <app-ai-chat class="block min-h-[430px]" />
+          <app-ai-chat class="block min-h-[440px]" />
         </section>
       }
     </div>
   `,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   summary = signal<AnalyticsSummary | null>(null)
   loading = signal(true)
   error = signal('')
+  private readonly isMobile = signal(window.innerWidth < 640)
+  private readonly mediaQuery = window.matchMedia('(max-width: 639px)')
+  private readonly mediaListener = (event: MediaQueryListEvent) => this.isMobile.set(event.matches)
 
   readonly donutColors = ['#6366f1','#f59e0b','#10b981','#ef4444','#ec4899','#f97316','#06b6d4','#8b5cf6','#64748b','#94a3b8']
 
@@ -215,14 +218,14 @@ export class DashboardComponent implements OnInit {
 
   trendChartOptions = computed(() => ({
     type: 'bar' as const,
-    height: 320,
+    height: this.isMobile() ? 260 : 320,
     toolbar: { show: false },
     foreColor: this.theme.theme() === 'dark' ? '#cbd5e1' : '#475569',
   }))
 
   donutChartOptions = computed(() => ({
     type: 'donut' as const,
-    height: 260,
+    height: this.isMobile() ? 230 : 260,
     foreColor: this.theme.theme() === 'dark' ? '#cbd5e1' : '#475569',
   }))
 
@@ -264,6 +267,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.mediaQuery.addEventListener('change', this.mediaListener)
     this.txService.getSummary().subscribe({
       next: (data) => {
         this.summary.set(data)
@@ -274,5 +278,9 @@ export class DashboardComponent implements OnInit {
         this.loading.set(false)
       },
     })
+  }
+
+  ngOnDestroy() {
+    this.mediaQuery.removeEventListener('change', this.mediaListener)
   }
 }

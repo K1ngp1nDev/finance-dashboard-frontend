@@ -1,6 +1,6 @@
 # AI Finance Dashboard
 
-Angular dashboard for a portfolio-ready finance reporting tool. It presents seeded cash-flow analytics, transaction operations, CSV import, light/dark reporting views, charts, and an AI assistant backed by a NestJS API.
+Angular dashboard for a portfolio-ready finance reporting tool. It presents seeded cash-flow analytics, transaction operations, CSV import, responsive desktop/mobile reporting views, light/dark themes, charts, and an AI assistant backed by a NestJS API.
 
 ## Portfolio Value
 
@@ -18,8 +18,9 @@ This project demonstrates full-stack dashboard development: API-backed data flow
 - Dashboard KPI cards for balance, income, expenses, and savings rate
 - Monthly income vs expense trend chart
 - Spending by category donut chart and category table
+- Responsive dashboard layout for desktop, tablet, and mobile screenshots
 - Recent transactions and largest expenses tables
-- Transaction ledger with category filter and delete action
+- Transaction ledger with desktop table, mobile cards, category filter, and delete action
 - Add transaction form with AI/demo category suggestion
 - CSV import card for `date,description,amount` files
 - AI assistant visible on the dashboard with sample prompts and keyless demo responses
@@ -36,11 +37,19 @@ This project demonstrates full-stack dashboard development: API-backed data flow
 
 ![Dashboard dark](docs/screenshots/dashboard-dark.png)
 
+![Dashboard mobile light](docs/screenshots/dashboard-mobile-light.png)
+
+![Dashboard mobile dark](docs/screenshots/dashboard-mobile-dark.png)
+
 ![AI assistant demo](docs/screenshots/ai-assistant-demo.png)
 
 ![Transactions light](docs/screenshots/transactions-light.png)
 
 ![Transactions dark](docs/screenshots/transactions-dark.png)
+
+![Transactions mobile light](docs/screenshots/transactions-mobile-light.png)
+
+![Transactions mobile dark](docs/screenshots/transactions-mobile-dark.png)
 
 ![CSV import and filters](docs/screenshots/csv-import-and-filters.png)
 
@@ -69,3 +78,26 @@ apiUrl: 'http://localhost:3001/api'
 ## Backend
 
 Pairs with [finance-dashboard-api](https://github.com/K1ngp1nDev/finance-dashboard-api) (NestJS 11, PostgreSQL, Prisma, JWT, Swagger, AI demo mode).
+
+## Production Demo Run
+
+For a future live demo, run the frontend as a static production build rather than the Angular dev server:
+
+```bash
+npm install
+npm run build
+npx serve dist/finance-dashboard-frontend/browser
+```
+
+Run the backend with `AI_DEMO_MODE=true`, apply migrations, seed the demo database, then start the production server:
+
+```bash
+npm install
+npx prisma generate
+npx prisma migrate deploy
+npm run db:seed
+npm run build
+AI_DEMO_MODE=true npm run start:prod
+```
+
+The demo UI intentionally avoids contact details, external hire CTAs, Telegram, LinkedIn, or personal email links.
