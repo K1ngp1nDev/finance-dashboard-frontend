@@ -24,6 +24,26 @@ export const routes: Routes = [
         path: 'transactions',
         loadComponent: () => import('./features/transactions/list/transaction-list').then((m) => m.TransactionListComponent),
       },
+      {
+        path: 'reports',
+        loadComponent: () => import('./features/reports/reports').then((m) => m.ReportsComponent),
+      },
+      {
+        path: 'budgets',
+        loadComponent: () => import('./features/budgets/budgets').then((m) => m.BudgetsComponent),
+      },
+      {
+        path: 'subscriptions',
+        loadComponent: () => import('./features/subscriptions/subscriptions').then((m) => m.SubscriptionsComponent),
+      },
+      {
+        path: 'goals',
+        loadComponent: () => import('./features/goals/goals').then((m) => m.GoalsComponent),
+      },
+      {
+        path: 'categories',
+        loadComponent: () => import('./features/categories/categories').then((m) => m.CategoriesComponent),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

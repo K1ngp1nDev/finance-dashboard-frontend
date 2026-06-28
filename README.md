@@ -24,6 +24,11 @@ This project demonstrates full-stack dashboard development: API-backed data flow
 - Add transaction form with AI/demo category suggestion
 - CSV import card for `date,description,amount` files
 - AI assistant visible on the dashboard with sample prompts and keyless demo responses
+- **Reports** page — monthly cash-flow chart, income vs expense comparison, category-trend donut, largest expenses, CSV export, and an embedded context-aware AI assistant
+- **Budgets** page — per-category budget vs spend progress bars, over-budget alerts, and an inline budget-edit modal
+- **Subscriptions** page — recurring charges, upcoming renewals, cost-by-merchant chart, and mark-reviewed / cancel demo actions
+- **Goals** page — savings goals with progress, forecast card, contribution history, and contribute demo actions
+- **Categories** page — category breakdown with share bars, an AI categorization-rules view, and a rename/merge demo modal
 - Persisted light/dark theme toggle for login, dashboard, AI assistant, and transactions
 - JWT login flow with seeded demo credentials
 
@@ -52,6 +57,18 @@ This project demonstrates full-stack dashboard development: API-backed data flow
 ![Transactions mobile dark](docs/screenshots/transactions-mobile-dark.png)
 
 ![CSV import and filters](docs/screenshots/csv-import-and-filters.png)
+
+![Reports](docs/screenshots/reports-light.png)
+
+![Budgets](docs/screenshots/budgets-light.png)
+
+![Subscriptions dark](docs/screenshots/subscriptions-dark.png)
+
+![Goals](docs/screenshots/goals-light.png)
+
+![Category rules](docs/screenshots/category-rules.png)
+
+![Reports mobile](docs/screenshots/mobile-reports.png)
 
 ## Demo Credentials
 

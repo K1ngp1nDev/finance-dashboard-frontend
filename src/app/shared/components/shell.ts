@@ -38,6 +38,36 @@ import { ThemeToggleComponent } from './theme-toggle'
               Transactions
             </a>
           </li>
+          <li>
+            <a routerLink="/reports" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold dark:bg-indigo-500/15 dark:text-indigo-300"
+              class="flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-800">
+              Reports
+            </a>
+          </li>
+          <li>
+            <a routerLink="/budgets" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold dark:bg-indigo-500/15 dark:text-indigo-300"
+              class="flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-800">
+              Budgets
+            </a>
+          </li>
+          <li>
+            <a routerLink="/subscriptions" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold dark:bg-indigo-500/15 dark:text-indigo-300"
+              class="flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-800">
+              Subscriptions
+            </a>
+          </li>
+          <li>
+            <a routerLink="/goals" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold dark:bg-indigo-500/15 dark:text-indigo-300"
+              class="flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-800">
+              Goals
+            </a>
+          </li>
+          <li>
+            <a routerLink="/categories" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold dark:bg-indigo-500/15 dark:text-indigo-300"
+              class="flex items-center gap-2 whitespace-nowrap px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors dark:text-slate-300 dark:hover:bg-slate-800">
+              Categories
+            </a>
+          </li>
         </ul>
         <div class="hidden px-3 pb-4 md:block">
           <button (click)="auth.logout()"

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core'
+import { Component, input, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { AiService } from '../../core/services/ai.service'
 
@@ -31,7 +31,7 @@ const SUGGESTIONS = [
         @if (messages().length === 0) {
           <div class="space-y-2 pt-2">
             <p class="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-500">Try a sample prompt</p>
-            @for (s of suggestions; track s) {
+            @for (s of suggestions(); track s) {
               <button (click)="ask(s)"
                 class="w-full text-left text-xs bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 rounded-lg px-3 py-2 transition-colors dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-indigo-500/10 dark:hover:text-indigo-200">
                 {{ s }}
@@ -77,7 +77,7 @@ export class AiChatComponent {
   messages = signal<Message[]>([])
   input = ''
   loading = signal(false)
-  readonly suggestions = SUGGESTIONS
+  readonly suggestions = input<string[]>(SUGGESTIONS)
 
   constructor(private aiService: AiService) {}
 
