@@ -7,22 +7,25 @@ import { TransactionsService, CATEGORIES } from '../../../core/services/transact
   standalone: true,
   imports: [FormsModule],
   template: `
-    <div class="bg-white rounded-2xl shadow p-6">
-      <h2 class="text-lg font-semibold mb-4 text-slate-800">Add Transaction</h2>
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div class="mb-5">
+        <h2 class="text-lg font-semibold text-slate-900">Add transaction</h2>
+        <p class="mt-1 text-sm text-slate-500">Use Income for deposits and the other categories for expenses.</p>
+      </div>
       <form (ngSubmit)="submit()" class="grid grid-cols-2 gap-3">
         <div class="col-span-2">
           <label class="block text-xs font-medium text-slate-600 mb-1">Description</label>
           <div class="flex gap-2">
-            <input [(ngModel)]="description" name="description" required placeholder="Pizza Hut"
+            <input [(ngModel)]="description" name="description" required placeholder="Grocery Market"
               class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              (blur)="autoCatego()" />
+              (blur)="autoCategorize()" />
             @if (categorizing()) {
-              <span class="text-xs text-slate-400 self-center">categorizing…</span>
+              <span class="text-xs text-indigo-600 self-center">categorizing…</span>
             }
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Amount (€)</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Amount ($)</label>
           <input [(ngModel)]="amount" name="amount" type="number" step="0.01" required min="0"
             class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
         </div>
@@ -72,7 +75,7 @@ export class AddTransactionComponent {
 
   constructor(private txService: TransactionsService) {}
 
-  autoCatego() {
+  autoCategorize() {
     if (!this.description.trim()) return
     this.categorizing.set(true)
     this.txService.categorize(this.description).subscribe({

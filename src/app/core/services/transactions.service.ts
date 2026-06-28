@@ -14,15 +14,22 @@ export interface Transaction {
 }
 
 export interface AnalyticsSummary {
-  total: number
+  totalIncome: number
+  totalExpenses: number
+  balance: number
+  savingsRate: number
+  averageMonthlySpend: number
   count: number
   byCategory: Record<string, number>
   byMonth: Record<string, number>
+  incomeByMonth: Record<string, number>
+  recentTransactions: Transaction[]
+  largestExpenses: Transaction[]
 }
 
 export const CATEGORIES = [
-  'Food', 'Transport', 'Housing', 'Healthcare',
-  'Entertainment', 'Shopping', 'Education', 'Travel', 'Utilities', 'Other',
+  'Food', 'Rent', 'Utilities', 'Transport', 'Subscriptions',
+  'Shopping', 'Health', 'Travel', 'Income', 'Other',
 ] as const
 
 @Injectable({ providedIn: 'root' })
@@ -59,6 +66,13 @@ export class TransactionsService {
     return this.http
       .delete(`${environment.apiUrl}/transactions/${id}`)
       .pipe(tap(() => this.transactions.update((list) => list.filter((t) => t.id !== id))))
+  }
+
+  importCsv(file: File) {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    return this.http.post<{ imported: number }>(`${environment.apiUrl}/transactions/import`, formData)
   }
 
   categorize(description: string) {

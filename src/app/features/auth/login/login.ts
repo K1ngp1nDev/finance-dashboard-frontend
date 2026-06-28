@@ -9,8 +9,14 @@ import { AuthService } from '../../../core/services/auth.service'
   imports: [FormsModule, RouterLink],
   template: `
     <div class="min-h-screen flex items-center justify-center bg-slate-50">
-      <div class="w-full max-w-sm bg-white rounded-2xl shadow p-8">
-        <h1 class="text-2xl font-bold mb-6 text-slate-800">Sign in</h1>
+      <div class="w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">Portfolio demo</p>
+        <h1 class="mt-2 text-2xl font-bold text-slate-900">Sign in</h1>
+        <div class="my-5 rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
+          <p class="font-semibold text-slate-800">Demo credentials</p>
+          <p class="mt-1">Email: demo@example.com</p>
+          <p>Password: demo12345</p>
+        </div>
         <form (ngSubmit)="submit()" #f="ngForm" class="space-y-4">
           <div>
             <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>

@@ -9,22 +9,22 @@ import { AiChatComponent } from '../../features/ai-chat/ai-chat'
   imports: [RouterOutlet, RouterLink, RouterLinkActive, AiChatComponent],
   template: `
     <div class="flex h-screen bg-slate-50">
-      <nav class="w-56 bg-white border-r border-slate-100 flex flex-col">
+      <nav class="w-60 bg-white border-r border-slate-200 flex flex-col">
         <div class="px-5 py-4 border-b border-slate-100">
-          <h1 class="text-base font-bold text-indigo-600">Finance AI</h1>
+          <h1 class="text-base font-bold text-slate-950">Finance Dashboard</h1>
           <p class="text-xs text-slate-400 truncate">{{ auth.email() }}</p>
         </div>
         <ul class="flex-1 px-3 py-3 space-y-1">
           <li>
             <a routerLink="/dashboard" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold"
               class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors">
-              📊 Dashboard
+              Dashboard
             </a>
           </li>
           <li>
             <a routerLink="/transactions" routerLinkActive="bg-indigo-50 text-indigo-700 font-semibold"
               class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition-colors">
-              💳 Transactions
+              Transactions
             </a>
           </li>
         </ul>
@@ -40,7 +40,7 @@ import { AiChatComponent } from '../../features/ai-chat/ai-chat'
         <router-outlet />
       </main>
 
-      <aside class="w-72 border-l border-slate-100 p-4">
+      <aside class="hidden w-80 border-l border-slate-200 p-4 xl:block">
         <app-ai-chat class="h-full block" />
       </aside>
     </div>

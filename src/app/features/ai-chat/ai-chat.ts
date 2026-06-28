@@ -8,9 +8,9 @@ interface Message {
 }
 
 const SUGGESTIONS = [
-  'How much did I spend this month?',
-  'What is my top spending category?',
-  'How much on food this week?',
+  'How much did I spend on food this month?',
+  'What are my biggest expense categories?',
+  'Summarize my cash flow for the last 3 months.',
 ]
 
 @Component({
@@ -18,15 +18,19 @@ const SUGGESTIONS = [
   standalone: true,
   imports: [FormsModule],
   template: `
-    <div class="flex flex-col h-full bg-white rounded-2xl shadow overflow-hidden">
+    <div class="flex flex-col h-full bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <div class="px-4 py-3 border-b border-slate-100">
-        <h2 class="text-sm font-semibold text-slate-800">AI Assistant</h2>
-        <p class="text-xs text-slate-400">Ask about your spending</p>
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="text-sm font-semibold text-slate-900">AI Finance Assistant</h2>
+          <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700">Demo safe</span>
+        </div>
+        <p class="mt-1 text-xs text-slate-500">Works without real API keys when backend demo mode is enabled.</p>
       </div>
 
       <div class="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         @if (messages().length === 0) {
           <div class="space-y-2 pt-2">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-400">Try a sample prompt</p>
             @for (s of suggestions; track s) {
               <button (click)="ask(s)"
                 class="w-full text-left text-xs bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 border border-slate-200 rounded-lg px-3 py-2 transition-colors">
@@ -57,7 +61,7 @@ const SUGGESTIONS = [
 
       <div class="px-4 py-3 border-t border-slate-100">
         <form (ngSubmit)="sendInput()" class="flex gap-2">
-          <input [(ngModel)]="input" name="q" placeholder="Ask anything…"
+          <input [(ngModel)]="input" name="q" placeholder="Ask about cash flow…"
             [disabled]="loading()"
             class="flex-1 border border-slate-300 rounded-lg px-3 py-1.5 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50" />
           <button type="submit" [disabled]="!input.trim() || loading()"
@@ -92,7 +96,7 @@ export class AiChatComponent {
         this.loading.set(false)
       },
       error: () => {
-        this.messages.update((m) => [...m, { role: 'ai', text: 'Something went wrong. Try again.' }])
+        this.messages.update((m) => [...m, { role: 'ai', text: 'The assistant could not reach the API. Start the NestJS backend and keep AI_DEMO_MODE=true for a keyless demo.' }])
         this.loading.set(false)
       },
     })
