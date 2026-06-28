@@ -2,117 +2,121 @@ import { Component, OnInit, signal, computed } from '@angular/core'
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common'
 import { NgApexchartsModule } from 'ng-apexcharts'
 import { TransactionsService, AnalyticsSummary } from '../../core/services/transactions.service'
+import { AiChatComponent } from '../ai-chat/ai-chat'
+import { ThemeService } from '../../core/services/theme.service'
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, DecimalPipe, NgApexchartsModule],
+  imports: [CurrencyPipe, DatePipe, DecimalPipe, NgApexchartsModule, AiChatComponent],
   template: `
     <div class="space-y-6">
       <div class="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">AI Finance Dashboard</p>
-          <h1 class="text-2xl font-bold text-slate-950">Financial overview</h1>
-          <p class="mt-1 text-sm text-slate-500">Demo-ready cash flow, spending analytics and recent activity.</p>
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600 dark:text-indigo-300">AI Finance Dashboard</p>
+          <h1 class="text-2xl font-bold text-slate-950 dark:text-white">Financial overview</h1>
+          <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Demo-ready cash flow, spending analytics and recent activity.</p>
         </div>
-        <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800">
+        <div class="rounded-xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm text-indigo-800 dark:border-indigo-500/30 dark:bg-indigo-500/10 dark:text-indigo-200">
           Demo account seeded with 6 months of transactions
         </div>
       </div>
 
       @if (loading()) {
-        <div class="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">Loading dashboard analytics…</div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-400">Loading dashboard analytics…</div>
       } @else if (error()) {
-        <div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-700">{{ error() }}</div>
+        <div class="rounded-2xl border border-red-200 bg-red-50 p-5 text-sm text-red-700 dark:border-red-500/40 dark:bg-red-950/40 dark:text-red-200">{{ error() }}</div>
       } @else {
         <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Balance</p>
-            <p class="mt-2 text-3xl font-bold text-slate-950">{{ summary()?.balance | currency:'USD':'symbol':'1.0-0' }}</p>
-            <p class="mt-2 text-xs text-slate-500">Income minus expenses</p>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Balance</p>
+            <p class="mt-2 text-3xl font-bold text-slate-950 dark:text-white">{{ summary()?.balance | currency:'USD':'symbol':'1.0-0' }}</p>
+            <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Income minus expenses</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Income</p>
-            <p class="mt-2 text-3xl font-bold text-emerald-600">{{ summary()?.totalIncome | currency:'USD':'symbol':'1.0-0' }}</p>
-            <p class="mt-2 text-xs text-slate-500">{{ summary()?.count ?? 0 }} transactions tracked</p>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Income</p>
+            <p class="mt-2 text-3xl font-bold text-emerald-600 dark:text-emerald-400">{{ summary()?.totalIncome | currency:'USD':'symbol':'1.0-0' }}</p>
+            <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ summary()?.count ?? 0 }} transactions tracked</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Expenses</p>
-            <p class="mt-2 text-3xl font-bold text-rose-600">{{ summary()?.totalExpenses | currency:'USD':'symbol':'1.0-0' }}</p>
-            <p class="mt-2 text-xs text-slate-500">{{ summary()?.averageMonthlySpend | currency:'USD':'symbol':'1.0-0' }} avg / month</p>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Expenses</p>
+            <p class="mt-2 text-3xl font-bold text-rose-600 dark:text-rose-400">{{ summary()?.totalExpenses | currency:'USD':'symbol':'1.0-0' }}</p>
+            <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">{{ summary()?.averageMonthlySpend | currency:'USD':'symbol':'1.0-0' }} avg / month</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-xs font-medium uppercase tracking-wide text-slate-500">Savings rate</p>
-            <p class="mt-2 text-3xl font-bold text-indigo-600">{{ summary()?.savingsRate | number:'1.0-1' }}%</p>
-            <p class="mt-2 text-xs text-slate-500">Top category: {{ topCategory() }}</p>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <p class="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Savings rate</p>
+            <p class="mt-2 text-3xl font-bold text-indigo-600 dark:text-indigo-300">{{ summary()?.savingsRate | number:'1.0-1' }}%</p>
+            <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">Top category: {{ topCategory() }}</p>
           </div>
         </div>
 
         <div class="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div class="mb-4 flex items-center justify-between">
               <div>
-                <h2 class="text-base font-semibold text-slate-900">Monthly cash flow</h2>
-                <p class="text-xs text-slate-500">Income and spending over the seeded demo period</p>
+                <h2 class="text-base font-semibold text-slate-900 dark:text-white">Monthly cash flow</h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Income and spending over the seeded demo period</p>
               </div>
             </div>
             @if (hasTrendData()) {
               <apx-chart
                 [series]="trendSeries()"
-                [chart]="{ type: 'bar', height: 320, toolbar: { show: false } }"
-                [xaxis]="{ categories: trendCategories() }"
+                [chart]="trendChartOptions()"
+                [xaxis]="trendXAxisOptions()"
                 [plotOptions]="{ bar: { borderRadius: 6, columnWidth: '48%' } }"
                 [dataLabels]="{ enabled: false }"
                 [colors]="['#10b981', '#f43f5e']"
-                [yaxis]="yAxisOptions"
-                [legend]="{ position: 'top', horizontalAlign: 'right' }"
-                [grid]="{ borderColor: '#e2e8f0' }"
+                [yaxis]="yAxisOptions()"
+                [legend]="legendOptions()"
+                [grid]="gridOptions()"
+                [tooltip]="tooltipOptions()"
               />
             } @else {
-              <p class="py-20 text-center text-sm text-slate-400">No cash-flow data yet.</p>
+              <p class="py-20 text-center text-sm text-slate-400 dark:text-slate-500">No cash-flow data yet.</p>
             }
           </div>
 
-          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 class="text-base font-semibold text-slate-900">Spending by category</h2>
-            <p class="mb-4 text-xs text-slate-500">Expense-only breakdown for cleaner reporting</p>
+          <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <h2 class="text-base font-semibold text-slate-900 dark:text-white">Spending by category</h2>
+            <p class="mb-4 text-xs text-slate-500 dark:text-slate-400">Expense-only breakdown for cleaner reporting</p>
             @if (donutSeries().length > 0) {
             <apx-chart
               [series]="donutSeries()"
-              [chart]="{ type: 'donut', height: 260 }"
+              [chart]="donutChartOptions()"
               [labels]="donutLabels()"
-              [legend]="{ position: 'bottom' }"
+              [legend]="donutLegendOptions()"
               [plotOptions]="{ pie: { donut: { size: '65%' } } }"
               [dataLabels]="{ enabled: false }"
               [colors]="donutColors"
+              [tooltip]="tooltipOptions()"
             />
               <div class="mt-4 space-y-3">
                 @for (row of categoryRows(); track row.category) {
                   <div class="flex items-center justify-between gap-3 text-sm">
-                    <span class="text-slate-600">{{ row.category }}</span>
-                    <span class="font-semibold text-slate-900">{{ row.total | currency:'USD':'symbol':'1.0-0' }}</span>
+                    <span class="text-slate-600 dark:text-slate-300">{{ row.category }}</span>
+                    <span class="font-semibold text-slate-900 dark:text-slate-100">{{ row.total | currency:'USD':'symbol':'1.0-0' }}</span>
                   </div>
                 }
               </div>
             } @else {
-              <p class="py-20 text-center text-sm text-slate-400">No category data yet.</p>
+              <p class="py-20 text-center text-sm text-slate-400 dark:text-slate-500">No category data yet.</p>
             }
           </div>
         </div>
 
         <div class="grid gap-4 xl:grid-cols-2">
-          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div class="border-b border-slate-100 px-5 py-4">
-              <h2 class="text-base font-semibold text-slate-900">Recent transactions</h2>
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div class="border-b border-slate-100 px-5 py-4 dark:border-slate-800">
+              <h2 class="text-base font-semibold text-slate-900 dark:text-white">Recent transactions</h2>
             </div>
-            <div class="divide-y divide-slate-100">
+            <div class="divide-y divide-slate-100 dark:divide-slate-800">
               @for (tx of summary()?.recentTransactions ?? []; track tx.id) {
                 <div class="flex items-center justify-between gap-4 px-5 py-3">
                   <div>
-                    <p class="text-sm font-medium text-slate-900">{{ tx.description }}</p>
-                    <p class="text-xs text-slate-500">{{ tx.category }} · {{ tx.date | date:'mediumDate' }}</p>
+                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ tx.description }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">{{ tx.category }} · {{ tx.date | date:'mediumDate' }}</p>
                   </div>
-                  <p class="text-sm font-semibold" [class.text-emerald-600]="tx.category === 'Income'" [class.text-slate-900]="tx.category !== 'Income'">
+                  <p class="text-sm font-semibold text-slate-900 dark:text-slate-100" [class.text-emerald-600]="tx.category === 'Income'">
                     {{ tx.amount | currency:'USD':'symbol':'1.2-2' }}
                   </p>
                 </div>
@@ -120,23 +124,31 @@ import { TransactionsService, AnalyticsSummary } from '../../core/services/trans
             </div>
           </div>
 
-          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div class="border-b border-slate-100 px-5 py-4">
-              <h2 class="text-base font-semibold text-slate-900">Largest expenses</h2>
+          <div class="rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+            <div class="border-b border-slate-100 px-5 py-4 dark:border-slate-800">
+              <h2 class="text-base font-semibold text-slate-900 dark:text-white">Largest expenses</h2>
             </div>
-            <div class="divide-y divide-slate-100">
+            <div class="divide-y divide-slate-100 dark:divide-slate-800">
               @for (tx of summary()?.largestExpenses ?? []; track tx.id) {
                 <div class="flex items-center justify-between gap-4 px-5 py-3">
                   <div>
-                    <p class="text-sm font-medium text-slate-900">{{ tx.description }}</p>
-                    <p class="text-xs text-slate-500">{{ tx.category }} · {{ tx.date | date:'mediumDate' }}</p>
+                    <p class="text-sm font-medium text-slate-900 dark:text-slate-100">{{ tx.description }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">{{ tx.category }} · {{ tx.date | date:'mediumDate' }}</p>
                   </div>
-                  <p class="text-sm font-semibold text-rose-600">{{ tx.amount | currency:'USD':'symbol':'1.2-2' }}</p>
+                  <p class="text-sm font-semibold text-rose-600 dark:text-rose-400">{{ tx.amount | currency:'USD':'symbol':'1.2-2' }}</p>
                 </div>
               }
             </div>
           </div>
         </div>
+
+        <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+          <div class="mb-4 flex flex-col gap-1">
+            <h2 class="text-base font-semibold text-slate-900 dark:text-white">AI finance assistant</h2>
+            <p class="text-sm text-slate-500 dark:text-slate-400">Visible on the dashboard and wired to keyless backend demo mode.</p>
+          </div>
+          <app-ai-chat class="block min-h-[430px]" />
+        </section>
       }
     </div>
   `,
@@ -147,10 +159,6 @@ export class DashboardComponent implements OnInit {
   error = signal('')
 
   readonly donutColors = ['#6366f1','#f59e0b','#10b981','#ef4444','#ec4899','#f97316','#06b6d4','#8b5cf6','#64748b','#94a3b8']
-
-  readonly yAxisOptions = {
-    labels: { formatter: (v: number) => '$' + v.toFixed(0) },
-  }
 
   donutSeries = computed(() => {
     const s = this.summary()
@@ -205,7 +213,55 @@ export class DashboardComponent implements OnInit {
     return Object.entries(s.byCategory).sort(([, a], [, b]) => b - a)[0][0]
   })
 
-  constructor(private txService: TransactionsService) {}
+  trendChartOptions = computed(() => ({
+    type: 'bar' as const,
+    height: 320,
+    toolbar: { show: false },
+    foreColor: this.theme.theme() === 'dark' ? '#cbd5e1' : '#475569',
+  }))
+
+  donutChartOptions = computed(() => ({
+    type: 'donut' as const,
+    height: 260,
+    foreColor: this.theme.theme() === 'dark' ? '#cbd5e1' : '#475569',
+  }))
+
+  trendXAxisOptions = computed(() => ({
+    categories: this.trendCategories(),
+    labels: { style: { colors: this.axisColor() } },
+  }))
+
+  yAxisOptions = computed(() => ({
+    labels: {
+      formatter: (v: number) => '$' + v.toFixed(0),
+      style: { colors: [this.axisColor()] },
+    },
+  }))
+
+  legendOptions = computed(() => ({
+    position: 'top' as const,
+    horizontalAlign: 'right' as const,
+    labels: { colors: this.axisColor() },
+  }))
+
+  donutLegendOptions = computed(() => ({
+    position: 'bottom' as const,
+    labels: { colors: this.axisColor() },
+  }))
+
+  gridOptions = computed(() => ({
+    borderColor: this.theme.theme() === 'dark' ? '#334155' : '#e2e8f0',
+  }))
+
+  tooltipOptions = computed(() => ({
+    theme: this.theme.theme(),
+  }))
+
+  constructor(private txService: TransactionsService, readonly theme: ThemeService) {}
+
+  private axisColor() {
+    return this.theme.theme() === 'dark' ? '#cbd5e1' : '#475569'
+  }
 
   ngOnInit() {
     this.txService.getSummary().subscribe({

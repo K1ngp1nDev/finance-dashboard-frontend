@@ -2,36 +2,40 @@ import { Component, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Router, RouterLink } from '@angular/router'
 import { AuthService } from '../../../core/services/auth.service'
+import { ThemeToggleComponent } from '../../../shared/components/theme-toggle'
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ThemeToggleComponent],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-slate-50">
-      <div class="w-full max-w-sm bg-white rounded-2xl shadow p-8">
-        <h1 class="text-2xl font-bold mb-6 text-slate-800">Create account</h1>
+    <div class="min-h-screen flex items-center justify-center bg-slate-50 px-4 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
+      <div class="fixed right-5 top-5">
+        <app-theme-toggle />
+      </div>
+      <div class="w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-sm p-8 dark:border-slate-800 dark:bg-slate-900">
+        <h1 class="text-2xl font-bold mb-6 text-slate-800 dark:text-white">Create account</h1>
         <form (ngSubmit)="submit()" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+            <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-300">Email</label>
             <input [(ngModel)]="email" name="email" type="email" required
-              class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+            <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-300">Password</label>
             <input [(ngModel)]="password" name="password" type="password" required minlength="6"
-              class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
           </div>
           @if (error()) {
-            <p class="text-sm text-red-600">{{ error() }}</p>
+            <p class="text-sm text-red-600 dark:text-red-300">{{ error() }}</p>
           }
           <button type="submit" [disabled]="loading()"
             class="w-full bg-indigo-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors">
             {{ loading() ? 'Creating account…' : 'Create account' }}
           </button>
         </form>
-        <p class="mt-4 text-sm text-center text-slate-500">
-          Have an account? <a routerLink="/login" class="text-indigo-600 hover:underline">Sign in</a>
+        <p class="mt-4 text-sm text-center text-slate-500 dark:text-slate-400">
+          Have an account? <a routerLink="/login" class="text-indigo-600 hover:underline dark:text-indigo-300">Sign in</a>
         </p>
       </div>
     </div>

@@ -2,42 +2,46 @@ import { Component, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { Router, RouterLink } from '@angular/router'
 import { AuthService } from '../../../core/services/auth.service'
+import { ThemeToggleComponent } from '../../../shared/components/theme-toggle'
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, ThemeToggleComponent],
   template: `
-    <div class="min-h-screen flex items-center justify-center bg-slate-50">
-      <div class="w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+    <div class="min-h-screen flex items-center justify-center bg-slate-50 px-4 text-slate-950 dark:bg-slate-950 dark:text-slate-100">
+      <div class="fixed right-5 top-5">
+        <app-theme-toggle />
+      </div>
+      <div class="w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-sm p-8 dark:border-slate-800 dark:bg-slate-900">
         <p class="text-xs font-semibold uppercase tracking-[0.18em] text-indigo-600">Portfolio demo</p>
-        <h1 class="mt-2 text-2xl font-bold text-slate-900">Sign in</h1>
-        <div class="my-5 rounded-xl bg-slate-50 p-4 text-sm text-slate-600">
-          <p class="font-semibold text-slate-800">Demo credentials</p>
+        <h1 class="mt-2 text-2xl font-bold text-slate-900 dark:text-white">Sign in</h1>
+        <div class="my-5 rounded-xl bg-slate-50 p-4 text-sm text-slate-600 dark:bg-slate-800/80 dark:text-slate-300">
+          <p class="font-semibold text-slate-800 dark:text-slate-100">Demo credentials</p>
           <p class="mt-1">Email: demo@example.com</p>
           <p>Password: demo12345</p>
         </div>
         <form (ngSubmit)="submit()" #f="ngForm" class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+            <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-300">Email</label>
             <input [(ngModel)]="email" name="email" type="email" required
-              class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+            <label class="block text-sm font-medium text-slate-700 mb-1 dark:text-slate-300">Password</label>
             <input [(ngModel)]="password" name="password" type="password" required
-              class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+              class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
           </div>
           @if (error()) {
-            <p class="text-sm text-red-600">{{ error() }}</p>
+            <p class="text-sm text-red-600 dark:text-red-300">{{ error() }}</p>
           }
           <button type="submit" [disabled]="loading()"
             class="w-full bg-indigo-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors">
             {{ loading() ? 'Signing in…' : 'Sign in' }}
           </button>
         </form>
-        <p class="mt-4 text-sm text-center text-slate-500">
-          No account? <a routerLink="/register" class="text-indigo-600 hover:underline">Register</a>
+        <p class="mt-4 text-sm text-center text-slate-500 dark:text-slate-400">
+          No account? <a routerLink="/register" class="text-indigo-600 hover:underline dark:text-indigo-300">Register</a>
         </p>
       </div>
     </div>

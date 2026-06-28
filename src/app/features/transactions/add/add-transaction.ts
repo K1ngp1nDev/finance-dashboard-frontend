@@ -7,49 +7,49 @@ import { TransactionsService, CATEGORIES } from '../../../core/services/transact
   standalone: true,
   imports: [FormsModule],
   template: `
-    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div class="mb-5">
-        <h2 class="text-lg font-semibold text-slate-900">Add transaction</h2>
-        <p class="mt-1 text-sm text-slate-500">Use Income for deposits and the other categories for expenses.</p>
+        <h2 class="text-lg font-semibold text-slate-900 dark:text-white">Add transaction</h2>
+        <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Use Income for deposits and the other categories for expenses.</p>
       </div>
       <form (ngSubmit)="submit()" class="grid grid-cols-2 gap-3">
         <div class="col-span-2">
-          <label class="block text-xs font-medium text-slate-600 mb-1">Description</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1 dark:text-slate-300">Description</label>
           <div class="flex gap-2">
             <input [(ngModel)]="description" name="description" required placeholder="Grocery Market"
-              class="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              class="flex-1 border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
               (blur)="autoCategorize()" />
             @if (categorizing()) {
-              <span class="text-xs text-indigo-600 self-center">categorizing…</span>
+              <span class="text-xs text-indigo-600 self-center dark:text-indigo-300">categorizing…</span>
             }
           </div>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Amount ($)</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1 dark:text-slate-300">Amount ($)</label>
           <input [(ngModel)]="amount" name="amount" type="number" step="0.01" required min="0"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Date</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1 dark:text-slate-300">Date</label>
           <input [(ngModel)]="date" name="date" type="date" required
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Category</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1 dark:text-slate-300">Category</label>
           <select [(ngModel)]="category" name="category"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100">
             @for (cat of categories; track cat) {
               <option [value]="cat">{{ cat }}</option>
             }
           </select>
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-600 mb-1">Notes</label>
+          <label class="block text-xs font-medium text-slate-600 mb-1 dark:text-slate-300">Notes</label>
           <input [(ngModel)]="notes" name="notes"
-            class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+            class="w-full border border-slate-300 bg-white rounded-lg px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100" />
         </div>
         @if (error()) {
-          <p class="col-span-2 text-sm text-red-600">{{ error() }}</p>
+          <p class="col-span-2 text-sm text-red-600 dark:text-red-300">{{ error() }}</p>
         }
         <button type="submit" [disabled]="loading()"
           class="col-span-2 bg-indigo-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 transition-colors">
