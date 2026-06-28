@@ -11,10 +11,12 @@ interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private _token = signal<string | null>(localStorage.getItem('token'))
-  private _email = signal<string | null>(localStorage.getItem('email'))
+  private _token = signal<string | null>(environment.demoAuthDisabled ? null : localStorage.getItem('token'))
+  private _email = signal<string | null>(
+    environment.demoAuthDisabled ? 'demo@example.com' : localStorage.getItem('email'),
+  )
 
-  readonly isLoggedIn = computed(() => !!this._token())
+  readonly isLoggedIn = computed(() => environment.demoAuthDisabled || !!this._token())
   readonly email = computed(() => this._email())
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -32,6 +34,11 @@ export class AuthService {
   }
 
   logout() {
+    if (environment.demoAuthDisabled) {
+      this._email.set('demo@example.com')
+      this.router.navigate(['/dashboard'])
+      return
+    }
     localStorage.removeItem('token')
     localStorage.removeItem('email')
     this._token.set(null)
@@ -40,6 +47,7 @@ export class AuthService {
   }
 
   getToken() {
+    if (environment.demoAuthDisabled) return null
     return this._token()
   }
 

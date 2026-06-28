@@ -7,6 +7,10 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+ARG DEMO_AUTH_DISABLED=false
+RUN if [ "$DEMO_AUTH_DISABLED" = "true" ]; then \
+  node -e "const fs=require('fs'); const p='src/environments/environment.ts'; let s=fs.readFileSync(p,'utf8'); s=s.replace('demoAuthDisabled: false', 'demoAuthDisabled: true'); fs.writeFileSync(p,s);" ; \
+  fi
 RUN npm run build
 
 FROM nginx:1.27-alpine
